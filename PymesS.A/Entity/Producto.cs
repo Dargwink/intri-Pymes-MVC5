@@ -20,6 +20,7 @@ namespace Entity
             this.CostoProduccion = new HashSet<CostoProduccion>();
             this.EntradaProducto = new HashSet<EntradaProducto>();
             this.Inventario = new HashSet<Inventario>();
+            this.Venta = new HashSet<Venta>();
         }
     
         public int IdProducto { get; set; }
@@ -36,5 +37,7 @@ namespace Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Inventario> Inventario { get; set; }
         public virtual TipoProducto TipoProducto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Venta> Venta { get; set; }
     }
 }

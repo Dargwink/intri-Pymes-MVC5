@@ -170,6 +170,16 @@
           <Property Name="Telefono" Type="int" Nullable="false" />
           <Property Name="activo" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="TipoInventario">
           <Key>
             <PropertyRef Name="IdTipoInventario" />
@@ -207,9 +217,10 @@
           <Key>
             <PropertyRef Name="IdVenta" />
           </Key>
-          <Property Name="IdVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdVenta" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="IdPersona" Type="int" Nullable="false" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="IdProducto" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="Total" Type="money" Nullable="false" />
           <Property Name="activo" Type="bit" Nullable="false" />
@@ -247,18 +258,6 @@
             </Principal>
             <Dependent Role="DetalleVenta">
               <PropertyRef Name="IdInventario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__DetalleVe__IdVen__5812160E">
-          <End Role="Venta" Type="Self.Venta" Multiplicity="1" />
-          <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Venta">
-              <PropertyRef Name="IdVenta" />
-            </Principal>
-            <Dependent Role="DetalleVenta">
-              <PropertyRef Name="IdVenta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -382,30 +381,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Venta__IdPersona__628FA481">
-          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
-          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Persona">
-              <PropertyRef Name="IdPersona" />
-            </Principal>
-            <Dependent Role="Venta">
-              <PropertyRef Name="IdPersona" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Venta__IdUsuario__6383C8BA">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
-          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="IdUsuario" />
-            </Principal>
-            <Dependent Role="Venta">
-              <PropertyRef Name="IdUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -462,6 +437,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Venta_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="IdPersona" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="IdPersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Venta_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Venta_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="buscarActivos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="activo" Type="bit" Mode="In" />
         </Function>
@@ -498,6 +509,7 @@
           <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoInventario" EntityType="Self.TipoInventario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoPersona" EntityType="Self.TipoPersona" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoProducto" EntityType="Self.TipoProducto" Schema="dbo" store:Type="Tables" />
@@ -513,10 +525,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__DetalleVe__IdInv__571DF1D5" Association="Self.FK__DetalleVe__IdInv__571DF1D5">
             <End Role="Inventario" EntitySet="Inventario" />
-            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
-          </AssociationSet>
-          <AssociationSet Name="FK__DetalleVe__IdVen__5812160E" Association="Self.FK__DetalleVe__IdVen__5812160E">
-            <End Role="Venta" EntitySet="Venta" />
             <End Role="DetalleVenta" EntitySet="DetalleVenta" />
           </AssociationSet>
           <AssociationSet Name="FK__EntradaMa__IdInv__59FA5E80" Association="Self.FK__EntradaMa__IdInv__59FA5E80">
@@ -559,14 +567,6 @@
             <End Role="TipoProducto" EntitySet="TipoProducto" />
             <End Role="Producto" EntitySet="Producto" />
           </AssociationSet>
-          <AssociationSet Name="FK__Venta__IdPersona__628FA481" Association="Self.FK__Venta__IdPersona__628FA481">
-            <End Role="Persona" EntitySet="Persona" />
-            <End Role="Venta" EntitySet="Venta" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Venta__IdUsuario__6383C8BA" Association="Self.FK__Venta__IdUsuario__6383C8BA">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="Venta" EntitySet="Venta" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -582,6 +582,18 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Venta_Persona" Association="Self.FK_Venta_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Venta_Producto" Association="Self.FK_Venta_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Venta_Usuario" Association="Self.FK_Venta_Usuario">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -763,6 +775,7 @@
           <NavigationProperty Name="EntradaProducto" Relationship="Self.FK__EntradaPr__activ__6DCC4D03" FromRole="Producto" ToRole="EntradaProducto" />
           <NavigationProperty Name="Inventario" Relationship="Self.FK__Inventari__IdPro__671F4F74" FromRole="Producto" ToRole="Inventario" />
           <NavigationProperty Name="TipoProducto" Relationship="Self.FK__Producto__IdTipo__634EBE90" FromRole="Producto" ToRole="TipoProducto" />
+          <NavigationProperty Name="Venta" Relationship="DB_PymesModel.FK_Venta_Producto" FromRole="Producto" ToRole="Venta" />
         </EntityType>
         <EntityType Name="Proveedor">
           <Key>
@@ -826,6 +839,8 @@
           <NavigationProperty Name="DetalleVenta" Relationship="Self.FK__DetalleVe__IdVen__72910220" FromRole="Venta" ToRole="DetalleVenta" />
           <NavigationProperty Name="Persona" Relationship="Self.FK__Venta__activo__59C55456" FromRole="Venta" ToRole="Persona" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK__Venta__IdUsuario__5AB9788F" FromRole="Venta" ToRole="Usuario" />
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Producto" Relationship="DB_PymesModel.FK_Venta_Producto" FromRole="Venta" ToRole="Producto" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -1182,6 +1197,11 @@
           <FunctionImport Name="producto_buscar2" EntitySet="Producto" ReturnType="Collection(DB_PymesModel.Producto)">
           <Parameter Name="IdProducto" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="sysdiagrams" EntityType="DB_PymesModel.sysdiagrams" />
+          <AssociationSet Name="FK_Venta_Producto" Association="DB_PymesModel.FK_Venta_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="buscarActivos_Result">
           <Property Type="Int32" Name="IdProducto" Nullable="false" />
@@ -1253,6 +1273,28 @@
           <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="50" />
           <Property Type="Boolean" Name="activo" Nullable="false" />
         </ComplexType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Venta_Producto">
+          <End Type="DB_PymesModel.Producto" Role="Producto" Multiplicity="1" />
+          <End Type="DB_PymesModel.Venta" Role="Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1467,6 +1509,7 @@
           <EntitySetMapping Name="Venta">
             <EntityTypeMapping TypeName="DB_PymesModel.Venta">
               <MappingFragment StoreEntitySet="Venta">
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="IdVenta" ColumnName="IdVenta" />
                 <ScalarProperty Name="IdPersona" ColumnName="IdPersona" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
@@ -1568,6 +1611,17 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="producto_buscar2" FunctionName="DB_PymesModel.Store.producto_buscar" />
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DB_PymesModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

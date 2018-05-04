@@ -43,6 +43,8 @@
         <AssociationConnector Association="DB_PymesModel.FK__Producto__IdTipo__634EBE90" ManuallyRouted="false" />
         <AssociationConnector Association="DB_PymesModel.FK__Venta__IdUsuario__5AB9788F" ManuallyRouted="false" />
         <AssociationConnector Association="DB_PymesModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DB_PymesModel.sysdiagrams" Width="1.5" PointX="3.375" PointY="0.75" />
+        <AssociationConnector Association="DB_PymesModel.FK_Venta_Producto" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

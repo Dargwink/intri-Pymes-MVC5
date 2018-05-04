@@ -46,6 +46,7 @@ namespace Entity
         public virtual DbSet<TipoProducto> TipoProducto { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Venta> Venta { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     
         public virtual ObjectResult<buscarActivos_Result> buscarActivos(Nullable<bool> activo)
         {

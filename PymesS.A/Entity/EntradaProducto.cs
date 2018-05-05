@@ -24,7 +24,7 @@ namespace Entity
         public decimal PrecioxUnidad { get; set; }
         public bool activo { get; set; }
     
-        public virtual Producto Producto { get; set; }
         public virtual Inventario Inventario { get; set; }
+        public virtual Producto Producto { get; set; }
     }
 }

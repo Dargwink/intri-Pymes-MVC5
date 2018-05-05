@@ -26,12 +26,10 @@ namespace Entity
         public System.DateTime Fecha { get; set; }
         public decimal Total { get; set; }
         public bool activo { get; set; }
-        public int IdProducto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
         public virtual Persona Persona { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual Producto Producto { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace Entity
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CostoProduccion> CostoProduccion { get; set; }
-        public virtual Proveedor Proveedor { get; set; }
         public virtual Inventario Inventario { get; set; }
+        public virtual Proveedor Proveedor { get; set; }
     }
 }

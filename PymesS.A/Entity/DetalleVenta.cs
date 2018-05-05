@@ -17,9 +17,11 @@ namespace Entity
         public int IdDetalleVenta { get; set; }
         public int IdInventario { get; set; }
         public int IdVenta { get; set; }
+        public int IdProducto { get; set; }
         public int CantidaPedita { get; set; }
     
         public virtual Inventario Inventario { get; set; }
+        public virtual Producto Producto { get; set; }
         public virtual Venta Venta { get; set; }
     }
 }

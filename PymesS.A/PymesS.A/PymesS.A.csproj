@@ -503,12 +503,6 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Entity\Entity.csproj">
-      <Project>{d8d98247-a1a9-4dc2-9b22-e0e4bf2f20f8}</Project>
-      <Name>Entity</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Migrations\201711141947340_Creando_SP.resx">
       <DependentUpon>201711141947340_Creando_SP.cs</DependentUpon>
     </EmbeddedResource>
@@ -523,6 +517,12 @@
       <LastGenOutput>RecursosSQL.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{19144cf6-184b-4b3a-ae2f-f757c085aebd}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

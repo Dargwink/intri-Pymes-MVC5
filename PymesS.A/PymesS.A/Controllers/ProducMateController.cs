@@ -28,31 +28,31 @@ namespace PymesS.A.Controllers
             return View(producto.ToList());
 
         }
-        public ActionResult ProduCanti()
-        {
+        //public ActionResult ProduCanti()
+        //{
             
 
-            var producto = from p in db.Producto
-                           where p.PrecioXUnidad > 99
-                           select new MyProducto
-                           {
-                               Id = p.IdProducto,
-                               Nombre = p.NombreProducto,
-                               PrecioUnitario = p.PrecioXUnidad,
-                               TotalIngreso = p.EntradaProducto.Sum(o => o.PrecioxUnidad * o.CantidadEntrante)
+            //var producto = from p in db.Producto
+            //               where p.PrecioXUnidad > 99
+            //               select new MyProducto
+            //               {
+            //                   Id = p.IdProducto,
+            //                   Nombre = p.NombreProducto,
+            //                   PrecioUnitario = p.PrecioXUnidad,
+            //                   TotalIngreso = p.EntradaProducto.Sum(o => o.PrecioxUnidad * o.CantidadEntrante)
 
 
-                           };
-            return View(producto.ToList());
+            //               };
+            //return View(producto.ToList());
 
-        }
-        public ActionResult ProducActi()
-        {
-            var producto = (from p in db.Producto
-                            where p.activo == true
-                            select p);
-            return View(producto.ToList());
-        }
+        //}
+        //public ActionResult ProducActi()
+        //{
+        //    var producto = (from p in db.Producto
+        //                    where p.activo == true
+        //                    select p);
+        //    return View(producto.ToList());
+        //}
 
     }
 }

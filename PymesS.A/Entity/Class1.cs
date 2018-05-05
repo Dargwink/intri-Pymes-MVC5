@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PymesS.A.Entity
+namespace Entity
 {
-   public  class NombreCedula
+    public class Class1
     {
-        public string Nombre { get; set; }
-        public string Cedula { get; set; }
     }
 }
